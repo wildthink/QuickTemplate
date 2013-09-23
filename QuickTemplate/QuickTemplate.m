@@ -60,7 +60,6 @@ JREnum(QTCmdType,
     QTCmdStyle,
     QTCmdLoop,
     QTCmdQuote,
-//    QTCmdLiteral,
     QTCmdAnchor,
     QTCmdIf,
     QTCmdIfNot,
@@ -68,39 +67,47 @@ JREnum(QTCmdType,
 );
 
 @interface pcode : NSObject
-{
-    @public
-    QTCmdType code;
-    id arg1;
-    id arg2;
-    BOOL isEndTag;
-}
+
+@property (strong, nonatomic) id arg1;
+@property (strong, nonatomic) id arg2;
+
+// This MUST be WEAK to avoid retain cycles
+@property (weak, nonatomic) pcode *matching_pcode;
+
+@property QTCmdType code;
+@property BOOL isSelfEndTag;
+@property BOOL isEndTag;
+
 @end
 
 @implementation pcode
 
 + (QTCmdType)typeFromTag:(NSString*)tag
 {
-    unichar ch = [tag characterAtIndex:0];
-    ch = tolower(ch);
+    static NSDictionary *tags;
+    static dispatch_once_t once;
     
-    switch (ch) {
-        case 'v':
-            return QTCmdValue;
-        case 'a':
-            return QTCmdAnchor;
-        case 'l':
-            return QTCmdLoop;
-        case 's':
-            return QTCmdStyle;
-        case 'i':
-            return QTCmdIf;
-        case 'q':
-            return QTCmdQuote;
-        default:
-            return QTCmdUnknown;
-    }
+    dispatch_once(&once, ^{
+        tags =
+        @{
+          @"v": @(QTCmdValue),
+          @"value": @(QTCmdValue),
+          @"s": @(QTCmdStyle),
+          @"style": @(QTCmdStyle),
+          @"a": @(QTCmdAnchor),
+          @"l": @(QTCmdLoop),
+          @"loop": @(QTCmdLoop),
+          @"q": @(QTCmdQuote),
+          @"quote": @(QTCmdQuote),
+          @"i": @(QTCmdIf),
+          @"if": @(QTCmdIf),
+          @"ifnot": @(QTCmdIfNot),
+          @"!": @(QTCmdIfNot),
+          };
+    });
+    return [[tags objectForKey:tag] intValue];;
 }
+
 
 + (NSAttributedString*)literalValueForKey:(NSString*)key
 {
@@ -126,28 +133,34 @@ JREnum(QTCmdType,
     
     if ([tag characterAtIndex:0] == '/') {
         tag = [tag substringFromIndex:1];
-        pc->isEndTag = YES;
+        pc.isEndTag = YES;
     }
 
     if ([tag characterAtIndex:[tag length] - 1] == '/') {
         tag = [tag substringToIndex:[tag length] - 1];
-        pc->isEndTag = YES;
+        pc.isEndTag = YES;
+        pc.isSelfEndTag = YES;
     }
 
     NSArray *argv = [tag componentsSeparatedByString:@":"];
 
-    pc->code = [self typeFromTag:[argv objectAtIndex:0]];
-    pc->arg1 = ([argv count] > 1) ? [argv objectAtIndex:1] : nil;
-    pc->arg2 = ([argv count] > 2) ? [argv objectAtIndex:2] : nil;
-
+    pc.code = [self typeFromTag:[argv objectAtIndex:0]];
+    if (pc.code == QTCmdAnchor && ! pc.isEndTag) {
+        NSUInteger ndx = [[argv objectAtIndex:0] length] + 1; // extra for the ':'
+        pc.arg1 = [tag substringFromIndex:ndx];
+    }
+    else {
+        pc.arg1 = ([argv count] > 1) ? [argv objectAtIndex:1] : nil;
+        pc.arg2 = ([argv count] > 2) ? [argv objectAtIndex:2] : nil;
+    }
     // <q>nnn</q> => "nnn"
     // <q:LT/> => a literal value, in this example <
-    if (pc->code == QTCmdQuote) {
-        if (pc->arg1) {
-            pc->arg1 = [self literalValueForKey:pc->arg1];
+    if (pc.code == QTCmdQuote) {
+        if (pc.arg1) {
+            pc.arg1 = [self literalValueForKey:pc.arg1];
         }
         else {
-            pc->arg1 = [self literalValueForKey:@"DQ"];
+            pc.arg1 = [self literalValueForKey:@"DQ"];
         }
     }
     return pc;
@@ -155,8 +168,8 @@ JREnum(QTCmdType,
 
 - (NSString*)description
 {
-    return [NSString stringWithFormat:@"(%@ %@%s)", QTCmdTypeToString(code), arg1,
-            (isEndTag ? " *" : "")];
+    return [NSString stringWithFormat:@"(%@ %@%s)", QTCmdTypeToString(self.code), self.arg1,
+            (self.isEndTag ? " *" : "")];
 }
 
 @end
@@ -186,6 +199,8 @@ JREnum(QTCmdType,
 {
     NSScanner *scanr = [NSScanner scannerWithString:template];
     NSMutableArray *codes = [NSMutableArray array];
+    NSMutableArray *stack = [NSMutableArray array];
+
     NSString *text;
     NSString *tag;
     
@@ -206,7 +221,19 @@ JREnum(QTCmdType,
         [scanr scanString:@">" intoString:NULL];
         if (tag) {
             pcode *pc = [pcode pcodeFromTag:tag];
+
             [codes addObject:pc];
+            if (pc.isSelfEndTag) {
+                pc.matching_pcode = pc;
+            }
+            else if (pc.isEndTag) {
+                pcode *start_tag = [stack pop];
+                start_tag.matching_pcode = pc;
+                pc.matching_pcode = start_tag;
+            }
+            else {
+                [stack push:pc];
+            }
         }
     }
     return codes;
@@ -220,7 +247,7 @@ JREnum(QTCmdType,
 
 - (NSMutableAttributedString*)insertAttributedStringUsingRootValue:root intoAttributedString:(NSMutableAttributedString*)astr at:(NSInteger)pos;
 {
-    QTCmdType code = QTCmdAnchor;
+    QTCmdType code;
     NSAttributedString *as;
     id value;
     pcode *pc;
@@ -243,8 +270,8 @@ JREnum(QTCmdType,
         NSRange range;
         pc = (pcode*)item;
         
-        code = pc->code;
-        if (pc->isEndTag)  {
+        code = pc.code;
+        if (pc.isEndTag)  {
             NSInteger start = [[stack pop] intValue];
             range = NSMakeRange(start, (curpos - start));
         }
@@ -255,8 +282,8 @@ JREnum(QTCmdType,
         switch (code)
         {
             case QTCmdValue:
-                if (pc->isEndTag) {
-                    value = [root valueForKeyPath:pc->arg1];
+                if (pc.isEndTag) {
+                    value = [root valueForKeyPath:pc.arg1];
                     if (value) {
                         as = [[NSAttributedString alloc] initWithString:[value description] attributes:nil];
                         [astr appendAttributedString:as];
@@ -265,32 +292,32 @@ JREnum(QTCmdType,
                 break;
                 
             case QTCmdQuote:
-//                if (pc->isEndTag) {
-//                    value = [root valueForKeyPath:pc->arg1];
-//                    if (value) {
-//                        as = [[NSAttributedString alloc] initWithString:[value description] attributes:nil];
-//                        [astr appendAttributedString:as];
-//                    }
-//                }
-//                break;
-                
-//            case QTCmdLiteral:
-                if ([pc->arg1 isKindOfClass:[NSAttributedString class]]) {
-                   [astr appendAttributedString:pc->arg1];
+                if ([pc.arg1 isKindOfClass:[NSAttributedString class]]) {
+                   [astr appendAttributedString:pc.arg1];
                 }
-                else if (pc->arg1) {
+                else if (pc.arg1) {
                     as = [[NSAttributedString alloc] initWithString:[value description] attributes:nil];
                     [astr appendAttributedString:as];
                 }
                 break;
              
             case QTCmdStyle:
-                if (pc->isEndTag) {
-                    NSDictionary *props = [self.stylesheet valueForKey:pc->arg1];
+                if (pc.isEndTag) {
+                    NSDictionary *props = [self.stylesheet valueForKey:pc.matching_pcode.arg1];
                     [astr addAttributes:props range:range];
                 }
                 break;
 
+            case QTCmdAnchor:
+                if (pc.isEndTag) {
+                    NSDictionary *props = @{ NSLinkAttributeName: pc.matching_pcode.arg1 };
+                    [astr addAttributes:props range:range];
+                }
+                break;
+                break;
+                
+            case QTCmdIf:
+            case QTCmdLoop:
             default:
                 break;
         }

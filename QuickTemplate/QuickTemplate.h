@@ -52,7 +52,7 @@
 - initWithString:(NSString*)template stylesheet:(NSDictionary*)stylesheet;
 
 - (NSAttributedString*)attributedStringUsingRootValue:root;
-- (NSMutableAttributedString*)inserAttributedStringUsingRootValue:root
+- (NSMutableAttributedString*)insertAttributedStringUsingRootValue:root
                                              intoAttributedString:(NSMutableAttributedString*)astr
                                                                at:(NSInteger)pos;
 

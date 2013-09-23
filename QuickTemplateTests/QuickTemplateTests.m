@@ -26,7 +26,7 @@
     @{
         @"bold": @{ NSFontAttributeName: [NSFont boldSystemFontOfSize:12.0] }
     };
-    self.templateString = @"<s:bold>Hello <v:name/></s:bold>\nHow are <q:LT/><q>you</q><q:GT/> today?";
+    self.templateString = @"<s:bold>Hello <v:name/></s:bold>\nHow are <q:LT/><q>you</q><q:GT/> today?\n<a:http://apple.com>Apple</a>";
 
     self.root = @{ @"name": @"George", @"age": @(23), @"children": @[@"Leroy", @"Jane"] };
 }
