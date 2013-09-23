@@ -10,7 +10,7 @@
  Time-To-Code
  ------------
  21Sep2013/4
- 22Sep2013/2
+ 22Sep2013/(+ 2 4)
  
  */
 
@@ -40,12 +40,14 @@
  a)
     <a:http://apple.com>Apple</a>
  
- if)
+ show-if)
     <if:cond>text that appears if cond evaluates to non-nil</if>
  
- ifnot)
+ omit-if)
     <ifnot:cond_keypath>text that appears if cond evaluates to nil or NO or false</if>
  
+ img)
+    <img:image_name/>
  */
 
 #import "QuickTemplate.h"
@@ -61,10 +63,17 @@ JREnum(QTCmdType,
     QTCmdLoop,
     QTCmdQuote,
     QTCmdAnchor,
-    QTCmdIf,
-    QTCmdIfNot,
+    QTCmdOmitIf,
+    QTCmdUseIf,
     QTCmdEnd
 );
+
+static BOOL BooleanValue(id nob) {
+    if ([nob isKindOfClass:[NSNumber class]] && [nob integerValue] == 0)
+        return NO;
+    // else
+    return (nob == nil ? NO : YES);
+}
 
 @interface pcode : NSObject
 
@@ -99,10 +108,10 @@ JREnum(QTCmdType,
           @"loop": @(QTCmdLoop),
           @"q": @(QTCmdQuote),
           @"quote": @(QTCmdQuote),
-          @"i": @(QTCmdIf),
-          @"if": @(QTCmdIf),
-          @"ifnot": @(QTCmdIfNot),
-          @"!": @(QTCmdIfNot),
+          @"use-if": @(QTCmdUseIf),
+          @"show": @(QTCmdUseIf),
+          @"omit": @(QTCmdOmitIf),
+          @"omit-if": @(QTCmdOmitIf),
           };
     });
     return [[tags objectForKey:tag] intValue];;
@@ -239,6 +248,14 @@ JREnum(QTCmdType,
     return codes;
 }
 
+- (NSDictionary*)textAttributesForKey:(NSString*)styleKey {
+    return [self.stylesheet objectForKey:styleKey];
+}
+
+- (NSImage*)imageForKey:(NSString*)key {
+    return [NSImage imageNamed:key];
+}
+
 - (NSAttributedString*)attributedStringUsingRootValue:root;
 {
     return [self insertAttributedStringUsingRootValue:root
@@ -253,6 +270,9 @@ JREnum(QTCmdType,
     pcode *pc;
     NSInteger cnt = [self.pcode count];
     NSMutableArray *stack = [NSMutableArray array];
+    NSInteger stackNdx;
+    BOOL flag;
+    
     
     for (NSInteger ndx = 0; ndx < cnt; ++ndx)
     {
@@ -285,7 +305,7 @@ JREnum(QTCmdType,
                 if (pc.isEndTag) {
                     value = [root valueForKeyPath:pc.arg1];
                     if (value) {
-                        as = [[NSAttributedString alloc] initWithString:[value description] attributes:nil];
+                        as = [[NSAttributedString alloc] initWithString:[value description]];
                         [astr appendAttributedString:as];
                     }
                 }
@@ -296,14 +316,14 @@ JREnum(QTCmdType,
                    [astr appendAttributedString:pc.arg1];
                 }
                 else if (pc.arg1) {
-                    as = [[NSAttributedString alloc] initWithString:[value description] attributes:nil];
+                    as = [[NSAttributedString alloc] initWithString:[pc.arg1 description]];
                     [astr appendAttributedString:as];
                 }
                 break;
              
             case QTCmdStyle:
                 if (pc.isEndTag) {
-                    NSDictionary *props = [self.stylesheet valueForKey:pc.matching_pcode.arg1];
+                    NSDictionary *props = [self textAttributesForKey:pc.matching_pcode.arg1];
                     [astr addAttributes:props range:range];
                 }
                 break;
@@ -314,9 +334,31 @@ JREnum(QTCmdType,
                     [astr addAttributes:props range:range];
                 }
                 break;
-                break;
                 
-            case QTCmdIf:
+            case QTCmdUseIf:
+                if (!pc.isEndTag) {
+                    flag = BooleanValue([root valueForKeyPath:pc.arg1]);
+                    if (!flag) {
+                        stackNdx = [self.pcode indexOfObjectIdenticalTo:pc.matching_pcode];
+                        if (stackNdx != NSNotFound) {
+                            ndx = stackNdx - 1;
+                        }
+                    }
+                }
+                break;
+
+            case QTCmdOmitIf:
+                if (!pc.isEndTag) {
+                    flag = BooleanValue([root valueForKeyPath:pc.arg1]);
+                    if (flag) {
+                        stackNdx = [self.pcode indexOfObjectIdenticalTo:pc.matching_pcode];
+                        if (stackNdx != NSNotFound) {
+                            ndx = stackNdx - 1;
+                        }
+                    }
+                }
+                break;
+
             case QTCmdLoop:
             default:
                 break;

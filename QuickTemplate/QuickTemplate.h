@@ -56,4 +56,7 @@
                                              intoAttributedString:(NSMutableAttributedString*)astr
                                                                at:(NSInteger)pos;
 
+- (NSDictionary*)textAttributesForKey:(NSString*)styleKey;
+- (NSImage*)imageForKey:(NSString*)key;
+
 @end

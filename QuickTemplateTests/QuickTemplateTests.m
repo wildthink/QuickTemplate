@@ -28,13 +28,30 @@
     };
     self.templateString = @"<s:bold>Hello <v:name/></s:bold>\nHow are <q:LT/><q>you</q><q:GT/> today?\n<a:http://apple.com>Apple</a>";
 
-    self.root = @{ @"name": @"George", @"age": @(23), @"children": @[@"Leroy", @"Jane"] };
+    self.root = @{ @"name": @"George", @"age": @(23), @"children": @[@"Leroy", @"Jane"],
+                   @"true": @YES, @"false": @NO };
 }
 
 - (void)tearDown
 {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+- (void)testIfConstructs
+{
+    NSString *tmpl = @"Hi this is <show:true>here</show> not <omit:false>false</omit>";
+    QuickTemplate *qt = [[QuickTemplate alloc] initWithString:tmpl stylesheet:self.stylesheet];
+    NSAttributedString *str = [qt attributedStringUsingRootValue:self.root];
+    NSLog (@"pcode: %@", str);
+}
+
+- (void)testNotIfConstructs
+{
+    NSString *tmpl = @"Hi this is <show:false>here</show> not <omit:true>false</omit>";
+    QuickTemplate *qt = [[QuickTemplate alloc] initWithString:tmpl stylesheet:self.stylesheet];
+    NSAttributedString *str = [qt attributedStringUsingRootValue:self.root];
+    NSLog (@"pcode: %@", str);
 }
 
 - (void)testTemplateEval
