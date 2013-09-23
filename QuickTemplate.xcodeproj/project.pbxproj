@@ -15,6 +15,8 @@
 		967A7A0017EE500E00DD2A64 /* QuickTemplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 967A79E317EE500E00DD2A64 /* QuickTemplate.framework */; };
 		967A7A0617EE500E00DD2A64 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 967A7A0417EE500E00DD2A64 /* InfoPlist.strings */; };
 		967A7A0817EE500E00DD2A64 /* QuickTemplateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 967A7A0717EE500E00DD2A64 /* QuickTemplateTests.m */; };
+		967A7A1417EF822100DD2A64 /* NSArray+Stack.h in Headers */ = {isa = PBXBuildFile; fileRef = 967A7A1217EF822100DD2A64 /* NSArray+Stack.h */; };
+		967A7A1517EF822100DD2A64 /* NSArray+Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = 967A7A1317EF822100DD2A64 /* NSArray+Stack.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +45,9 @@
 		967A7A0317EE500E00DD2A64 /* QuickTemplateTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "QuickTemplateTests-Info.plist"; sourceTree = "<group>"; };
 		967A7A0517EE500E00DD2A64 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		967A7A0717EE500E00DD2A64 /* QuickTemplateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuickTemplateTests.m; sourceTree = "<group>"; };
+		967A7A1117EF6B7800DD2A64 /* JREnum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JREnum.h; sourceTree = "<group>"; };
+		967A7A1217EF822100DD2A64 /* NSArray+Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Stack.h"; sourceTree = "<group>"; };
+		967A7A1317EF822100DD2A64 /* NSArray+Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Stack.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +117,9 @@
 				967A79F317EE500E00DD2A64 /* QuickTemplate.h */,
 				967A79F417EE500E00DD2A64 /* QuickTemplate.m */,
 				967A79ED17EE500E00DD2A64 /* Supporting Files */,
+				967A7A1117EF6B7800DD2A64 /* JREnum.h */,
+				967A7A1217EF822100DD2A64 /* NSArray+Stack.h */,
+				967A7A1317EF822100DD2A64 /* NSArray+Stack.m */,
 			);
 			path = QuickTemplate;
 			sourceTree = "<group>";
@@ -151,6 +159,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				967A7A1417EF822100DD2A64 /* NSArray+Stack.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				967A79F517EE500E00DD2A64 /* QuickTemplate.m in Sources */,
+				967A7A1517EF822100DD2A64 /* NSArray+Stack.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,6 +458,7 @@
 				967A7A0D17EE500E00DD2A64 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		967A7A0E17EE500E00DD2A64 /* Build configuration list for PBXNativeTarget "QuickTemplateTests" */ = {
 			isa = XCConfigurationList;
@@ -456,6 +467,7 @@
 				967A7A1017EE500E00DD2A64 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
