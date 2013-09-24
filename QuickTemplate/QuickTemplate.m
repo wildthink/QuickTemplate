@@ -258,18 +258,18 @@ static BOOL BooleanValue(id nob) {
 
 - (NSAttributedString*)attributedStringUsingRootValue:root;
 {
-    return [self insertAttributedStringUsingRootValue:root
-                                intoAttributedString:[[NSMutableAttributedString alloc] init] at:0];
+    return [self appendToAttributedString:[[NSMutableAttributedString alloc] init] usingRootValue:root];
 }
 
-- (NSMutableAttributedString*)insertAttributedStringUsingRootValue:root intoAttributedString:(NSMutableAttributedString*)astr at:(NSInteger)pos;
+- (NSMutableAttributedString*)appendToAttributedString:(NSMutableAttributedString*)astr usingRootValue:root
 {
     QTCmdType code;
     NSAttributedString *as;
     id value;
     pcode *pc;
     NSInteger cnt = [self.pcode count];
-    NSMutableArray *stack = [NSMutableArray array];
+    NSMutableArray *stack = [NSMutableArray array]; // Holds numbers to build the tag range
+//    NSMutableArray *scope = [NSMutableArray array]; // Holds variable frames for loops
     NSInteger stackNdx;
     BOOL flag;
     
@@ -360,6 +360,16 @@ static BOOL BooleanValue(id nob) {
                 break;
 
             case QTCmdLoop:
+ /*                    NSArray *list = [root valuedForKey:pc.arg2];
+                 scope = [Scope scopeIn:scope];
+                    for (id item in list) {
+                        [scope setObject:item forKey:pc.arg1];
+                        NSUInteger endNdx = [self.pcode indexOfObjectIdenticalTo:pc.matching_pcode];
+                        [self runCode:[self.pcode subarrayWithRange:NSMakeRange(ndx, (endNdx - ndx))]
+          appendingToAttributedString:astr root:root inScope:scope];
+                }
+                 scope = [scope pop];
+                 */
             default:
                 break;
         }
