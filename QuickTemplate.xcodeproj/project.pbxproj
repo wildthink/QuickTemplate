@@ -7,6 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9630110117F90027004BB35D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9630110017F90027004BB35D /* Foundation.framework */; };
+		9630110617F90027004BB35D /* iOSQuickTemplate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9630110517F90027004BB35D /* iOSQuickTemplate.h */; };
+		9630110817F90027004BB35D /* iOSQuickTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9630110717F90027004BB35D /* iOSQuickTemplate.m */; };
+		9630110E17F90027004BB35D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 967A79FB17EE500E00DD2A64 /* XCTest.framework */; };
+		9630110F17F90027004BB35D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9630110017F90027004BB35D /* Foundation.framework */; };
+		9630111117F90028004BB35D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9630111017F90027004BB35D /* UIKit.framework */; };
+		9630111417F90028004BB35D /* libiOSQuickTemplate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 963010FF17F90027004BB35D /* libiOSQuickTemplate.a */; };
+		9630111A17F90028004BB35D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9630111817F90028004BB35D /* InfoPlist.strings */; };
+		9630111C17F90028004BB35D /* iOSQuickTemplateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9630111B17F90028004BB35D /* iOSQuickTemplateTests.m */; };
+		9630112517F9006D004BB35D /* NSAttributedString+UITextAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 9630112417F9006D004BB35D /* NSAttributedString+UITextAttributes.m */; };
+		9630113217FA00A7004BB35D /* NSXMLNode+TAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 9630112917FA00A7004BB35D /* NSXMLNode+TAL.h */; };
+		9630113317FA00A7004BB35D /* NSXMLNode+TAL.m in Sources */ = {isa = PBXBuildFile; fileRef = 9630112A17FA00A7004BB35D /* NSXMLNode+TAL.m */; };
+		9630113517FA00A7004BB35D /* TALContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 9630112B17FA00A7004BB35D /* TALContext.h */; };
+		9630113617FA00A7004BB35D /* TALContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 9630112C17FA00A7004BB35D /* TALContext.m */; };
+		9630113817FA00A7004BB35D /* WTIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 9630112D17FA00A7004BB35D /* WTIterator.h */; };
+		9630113917FA00A7004BB35D /* WTIterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9630112E17FA00A7004BB35D /* WTIterator.m */; };
 		967A79E717EE500E00DD2A64 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 967A79E617EE500E00DD2A64 /* Cocoa.framework */; };
 		967A79F117EE500E00DD2A64 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 967A79EF17EE500E00DD2A64 /* InfoPlist.strings */; };
 		967A79F517EE500E00DD2A64 /* QuickTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 967A79F417EE500E00DD2A64 /* QuickTemplate.m */; };
@@ -20,6 +36,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		9630111217F90028004BB35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 967A79DA17EE500E00DD2A64 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 963010FE17F90027004BB35D;
+			remoteInfo = iOSQuickTemplate;
+		};
 		967A79FE17EE500E00DD2A64 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 967A79DA17EE500E00DD2A64 /* Project object */;
@@ -29,7 +52,38 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		963010FD17F90027004BB35D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				9630110617F90027004BB35D /* iOSQuickTemplate.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		963010FF17F90027004BB35D /* libiOSQuickTemplate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libiOSQuickTemplate.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9630110017F90027004BB35D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		9630110417F90027004BB35D /* iOSQuickTemplate-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOSQuickTemplate-Prefix.pch"; sourceTree = "<group>"; };
+		9630110517F90027004BB35D /* iOSQuickTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iOSQuickTemplate.h; sourceTree = "<group>"; };
+		9630110717F90027004BB35D /* iOSQuickTemplate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iOSQuickTemplate.m; sourceTree = "<group>"; };
+		9630110D17F90027004BB35D /* iOSQuickTemplateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSQuickTemplateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9630111017F90027004BB35D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		9630111717F90028004BB35D /* iOSQuickTemplateTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iOSQuickTemplateTests-Info.plist"; sourceTree = "<group>"; };
+		9630111917F90028004BB35D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9630111B17F90028004BB35D /* iOSQuickTemplateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iOSQuickTemplateTests.m; sourceTree = "<group>"; };
+		9630112317F9006D004BB35D /* NSAttributedString+UITextAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+UITextAttributes.h"; sourceTree = "<group>"; };
+		9630112417F9006D004BB35D /* NSAttributedString+UITextAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+UITextAttributes.m"; sourceTree = "<group>"; };
+		9630112917FA00A7004BB35D /* NSXMLNode+TAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSXMLNode+TAL.h"; sourceTree = "<group>"; };
+		9630112A17FA00A7004BB35D /* NSXMLNode+TAL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSXMLNode+TAL.m"; sourceTree = "<group>"; };
+		9630112B17FA00A7004BB35D /* TALContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TALContext.h; sourceTree = "<group>"; };
+		9630112C17FA00A7004BB35D /* TALContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TALContext.m; sourceTree = "<group>"; };
+		9630112D17FA00A7004BB35D /* WTIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTIterator.h; sourceTree = "<group>"; };
+		9630112E17FA00A7004BB35D /* WTIterator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTIterator.m; sourceTree = "<group>"; };
 		967A79E317EE500E00DD2A64 /* QuickTemplate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = QuickTemplate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		967A79E617EE500E00DD2A64 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		967A79E917EE500E00DD2A64 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -51,6 +105,25 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		963010FC17F90027004BB35D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9630110117F90027004BB35D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9630110A17F90027004BB35D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9630110E17F90027004BB35D /* XCTest.framework in Frameworks */,
+				9630111117F90028004BB35D /* UIKit.framework in Frameworks */,
+				9630110F17F90027004BB35D /* Foundation.framework in Frameworks */,
+				9630111417F90028004BB35D /* libiOSQuickTemplate.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		967A79DF17EE500E00DD2A64 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -72,11 +145,73 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9630110217F90027004BB35D /* iOSQuickTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				9630110517F90027004BB35D /* iOSQuickTemplate.h */,
+				9630110717F90027004BB35D /* iOSQuickTemplate.m */,
+				9630110317F90027004BB35D /* Supporting Files */,
+			);
+			path = iOSQuickTemplate;
+			sourceTree = "<group>";
+		};
+		9630110317F90027004BB35D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9630110417F90027004BB35D /* iOSQuickTemplate-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9630111517F90028004BB35D /* iOSQuickTemplateTests */ = {
+			isa = PBXGroup;
+			children = (
+				9630111B17F90028004BB35D /* iOSQuickTemplateTests.m */,
+				9630111617F90028004BB35D /* Supporting Files */,
+			);
+			path = iOSQuickTemplateTests;
+			sourceTree = "<group>";
+		};
+		9630111617F90028004BB35D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9630111717F90028004BB35D /* iOSQuickTemplateTests-Info.plist */,
+				9630111817F90028004BB35D /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9630113B17FA099B004BB35D /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				9630112317F9006D004BB35D /* NSAttributedString+UITextAttributes.h */,
+				9630112417F9006D004BB35D /* NSAttributedString+UITextAttributes.m */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		9630113C17FA09A7004BB35D /* XTAL */ = {
+			isa = PBXGroup;
+			children = (
+				9630112917FA00A7004BB35D /* NSXMLNode+TAL.h */,
+				9630112A17FA00A7004BB35D /* NSXMLNode+TAL.m */,
+				9630112B17FA00A7004BB35D /* TALContext.h */,
+				9630112C17FA00A7004BB35D /* TALContext.m */,
+				9630112D17FA00A7004BB35D /* WTIterator.h */,
+				9630112E17FA00A7004BB35D /* WTIterator.m */,
+			);
+			name = XTAL;
+			sourceTree = "<group>";
+		};
 		967A79D917EE500E00DD2A64 = {
 			isa = PBXGroup;
 			children = (
+				9630113C17FA09A7004BB35D /* XTAL */,
+				9630113B17FA099B004BB35D /* iOS */,
 				967A79EC17EE500E00DD2A64 /* QuickTemplate */,
 				967A7A0117EE500E00DD2A64 /* QuickTemplateTests */,
+				9630110217F90027004BB35D /* iOSQuickTemplate */,
+				9630111517F90028004BB35D /* iOSQuickTemplateTests */,
 				967A79E517EE500E00DD2A64 /* Frameworks */,
 				967A79E417EE500E00DD2A64 /* Products */,
 			);
@@ -87,6 +222,8 @@
 			children = (
 				967A79E317EE500E00DD2A64 /* QuickTemplate.framework */,
 				967A79FA17EE500E00DD2A64 /* QuickTemplateTests.xctest */,
+				963010FF17F90027004BB35D /* libiOSQuickTemplate.a */,
+				9630110D17F90027004BB35D /* iOSQuickTemplateTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -96,6 +233,8 @@
 			children = (
 				967A79E617EE500E00DD2A64 /* Cocoa.framework */,
 				967A79FB17EE500E00DD2A64 /* XCTest.framework */,
+				9630110017F90027004BB35D /* Foundation.framework */,
+				9630111017F90027004BB35D /* UIKit.framework */,
 				967A79E817EE500E00DD2A64 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -159,13 +298,51 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9630113517FA00A7004BB35D /* TALContext.h in Headers */,
 				967A7A1417EF822100DD2A64 /* NSArray+Stack.h in Headers */,
+				9630113217FA00A7004BB35D /* NSXMLNode+TAL.h in Headers */,
+				9630113817FA00A7004BB35D /* WTIterator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		963010FE17F90027004BB35D /* iOSQuickTemplate */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9630112117F90028004BB35D /* Build configuration list for PBXNativeTarget "iOSQuickTemplate" */;
+			buildPhases = (
+				963010FB17F90027004BB35D /* Sources */,
+				963010FC17F90027004BB35D /* Frameworks */,
+				963010FD17F90027004BB35D /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iOSQuickTemplate;
+			productName = iOSQuickTemplate;
+			productReference = 963010FF17F90027004BB35D /* libiOSQuickTemplate.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		9630110C17F90027004BB35D /* iOSQuickTemplateTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9630112217F90028004BB35D /* Build configuration list for PBXNativeTarget "iOSQuickTemplateTests" */;
+			buildPhases = (
+				9630110917F90027004BB35D /* Sources */,
+				9630110A17F90027004BB35D /* Frameworks */,
+				9630110B17F90027004BB35D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9630111317F90028004BB35D /* PBXTargetDependency */,
+			);
+			name = iOSQuickTemplateTests;
+			productName = iOSQuickTemplateTests;
+			productReference = 9630110D17F90027004BB35D /* iOSQuickTemplateTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		967A79E217EE500E00DD2A64 /* QuickTemplate */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 967A7A0B17EE500E00DD2A64 /* Build configuration list for PBXNativeTarget "QuickTemplate" */;
@@ -211,6 +388,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Jason Jobe";
 				TargetAttributes = {
+					9630110C17F90027004BB35D = {
+						TestTargetID = 967A79E217EE500E00DD2A64;
+					};
 					967A79F917EE500E00DD2A64 = {
 						TestTargetID = 967A79E217EE500E00DD2A64;
 					};
@@ -230,11 +410,21 @@
 			targets = (
 				967A79E217EE500E00DD2A64 /* QuickTemplate */,
 				967A79F917EE500E00DD2A64 /* QuickTemplateTests */,
+				963010FE17F90027004BB35D /* iOSQuickTemplate */,
+				9630110C17F90027004BB35D /* iOSQuickTemplateTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		9630110B17F90027004BB35D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9630111A17F90028004BB35D /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		967A79E117EE500E00DD2A64 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -254,12 +444,32 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		963010FB17F90027004BB35D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9630110817F90027004BB35D /* iOSQuickTemplate.m in Sources */,
+				9630112517F9006D004BB35D /* NSAttributedString+UITextAttributes.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9630110917F90027004BB35D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9630111C17F90028004BB35D /* iOSQuickTemplateTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		967A79DE17EE500E00DD2A64 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				967A79F517EE500E00DD2A64 /* QuickTemplate.m in Sources */,
 				967A7A1517EF822100DD2A64 /* NSArray+Stack.m in Sources */,
+				9630113317FA00A7004BB35D /* NSXMLNode+TAL.m in Sources */,
+				9630113617FA00A7004BB35D /* TALContext.m in Sources */,
+				9630113917FA00A7004BB35D /* WTIterator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,6 +484,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		9630111317F90028004BB35D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 963010FE17F90027004BB35D /* iOSQuickTemplate */;
+			targetProxy = 9630111217F90028004BB35D /* PBXContainerItemProxy */;
+		};
 		967A79FF17EE500E00DD2A64 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 967A79E217EE500E00DD2A64 /* QuickTemplate */;
@@ -282,6 +497,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		9630111817F90028004BB35D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9630111917F90028004BB35D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		967A79EF17EE500E00DD2A64 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -301,6 +524,92 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		9630111D17F90028004BB35D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_ENABLE_MODULES = YES;
+				DSTROOT = /tmp/iOSQuickTemplate.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iOSQuickTemplate/iOSQuickTemplate-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		9630111E17F90028004BB35D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_ENABLE_MODULES = YES;
+				DSTROOT = /tmp/iOSQuickTemplate.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iOSQuickTemplate/iOSQuickTemplate-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9630111F17F90028004BB35D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/QuickTemplate.framework/Versions/A/QuickTemplate";
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iOSQuickTemplate/iOSQuickTemplate-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "iOSQuickTemplateTests/iOSQuickTemplateTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		9630112017F90028004BB35D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/QuickTemplate.framework/Versions/A/QuickTemplate";
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iOSQuickTemplate/iOSQuickTemplate-Prefix.pch";
+				INFOPLIST_FILE = "iOSQuickTemplateTests/iOSQuickTemplateTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
 		967A7A0917EE500E00DD2A64 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -442,6 +751,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		9630112117F90028004BB35D /* Build configuration list for PBXNativeTarget "iOSQuickTemplate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9630111D17F90028004BB35D /* Debug */,
+				9630111E17F90028004BB35D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		9630112217F90028004BB35D /* Build configuration list for PBXNativeTarget "iOSQuickTemplateTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9630111F17F90028004BB35D /* Debug */,
+				9630112017F90028004BB35D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		967A79DD17EE500E00DD2A64 /* Build configuration list for PBXProject "QuickTemplate" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
