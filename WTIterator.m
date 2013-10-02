@@ -17,43 +17,42 @@
 
 - initWithArray:(NSArray*)nobs
 {
-  objects = nobs;
-  count = [nobs count];
+  self.objects = nobs;
+  self.count = [nobs count];
   return self;
 }
 
 
--(BOOL)start { return (nextIndex == 1); }
--(BOOL)end   { return (nextIndex == count); }
+-(BOOL)start { return (self.nextIndex == 1); }
+-(BOOL)end   { return (self.nextIndex == self.count); }
 
--(BOOL)odd  { return (nextIndex % 2 ? YES : NO); }
--(BOOL)even { return (nextIndex % 2 ? NO : YES); }
+-(BOOL)odd  { return (self.nextIndex % 2 ? YES : NO); }
+-(BOOL)even { return (self.nextIndex % 2 ? NO : YES); }
 
--(unsigned)index { return nextIndex - 1; }
--(unsigned)number { return nextIndex; }
--(unsigned)length { return count; }
--(unsigned)count { return count; }
+-(NSUInteger)index { return self.nextIndex - 1; }
+-(NSUInteger)number { return self.nextIndex; }
+-(NSUInteger)length { return self.count; }
 
 - nextObject
 {
-  if (nextIndex < count)
-    return [objects objectAtIndex:(nextIndex++)];
+  if (self.nextIndex < self.count)
+    return [self.objects objectAtIndex:(self.nextIndex++)];
   else
     return nil;
 }
 
 - currentObject
 {
-	int ndx;
+	NSInteger ndx;
 	
-	if (nextIndex == 0) {
+	if (self.nextIndex == 0) {
 		ndx = 0;
-	} else if (nextIndex -1 < count) {
-		ndx = nextIndex - 1;
+	} else if (self.nextIndex -1 < self.count) {
+		ndx = self.nextIndex - 1;
 	} else {
 		ndx = -1;
 	}
-	return (ndx < 0 ? nil : [objects objectAtIndex:(nextIndex - 1)]);
+	return (ndx < 0 ? nil : [self.objects objectAtIndex:(self.nextIndex - 1)]);
 }
 
 @end

@@ -28,18 +28,18 @@ static NSString *TemplateRepeatKey = @"for";
 	if (prefix == nil)
 		prefix = @"tal";
 	
-	TAL_prefix = [[NSString alloc] initWithFormat:@"%@:", prefix];
-	TAL_condition = [[NSString alloc] initWithFormat:@"%@:if", prefix];
-	TAL_content = [[NSString alloc] initWithFormat:@"%@:content", prefix];
-	TAL_replace = [[NSString alloc] initWithFormat:@"%@:replace", prefix];
-	TAL_attributes = [[NSString alloc] initWithFormat:@"%@:attributes", prefix];
-	TAL_omit = [[NSString alloc] initWithFormat:@"%@:omit-tag", prefix];
-	TAL_include = [[NSString alloc] initWithFormat:@"%@:include", prefix];
-	TAL_repeat = [[NSString alloc] initWithFormat:@"%@:%@", prefix, TemplateRepeatKey];
+	self.TAL_prefix = [[NSString alloc] initWithFormat:@"%@:", prefix];
+	self.TAL_condition = [[NSString alloc] initWithFormat:@"%@:if", prefix];
+	self.TAL_content = [[NSString alloc] initWithFormat:@"%@:content", prefix];
+	self.TAL_replace = [[NSString alloc] initWithFormat:@"%@:replace", prefix];
+	self.TAL_attributes = [[NSString alloc] initWithFormat:@"%@:attributes", prefix];
+	self.TAL_omit = [[NSString alloc] initWithFormat:@"%@:omit-tag", prefix];
+	self.TAL_include = [[NSString alloc] initWithFormat:@"%@:include", prefix];
+	self.TAL_repeat = [[NSString alloc] initWithFormat:@"%@:%@", prefix, TemplateRepeatKey];
 	
-	loops = [[NSMutableDictionary alloc] init];
-	defines = [[NSMutableDictionary alloc] init];
-	values = [vals mutableCopy];
+	_loops = [[NSMutableDictionary alloc] init];
+	_defines = [[NSMutableDictionary alloc] init];
+	_values = [vals mutableCopy];
     
 	return self;
 }
@@ -47,24 +47,24 @@ static NSString *TemplateRepeatKey = @"for";
 
 - (void)initiateLoop:(NSString*)name withArray:(NSArray*)anArray
 {
-	if ([loops valueForKey:name]) {
+	if ([_loops valueForKey:name]) {
 		NSLog (@"TAL Loop ERROR: loop %@ already in use", name);
 		return;
 	}
 	WTIterator *looper = [[WTIterator alloc] initWithArray:anArray];  
-	[loops setValue:looper forKey:name];
+	[_loops setValue:looper forKey:name];
 }
 
 - nextObjectForLoop:(NSString*)name
 {
-	WTIterator *looper = [loops valueForKey:name];
+	WTIterator *looper = [_loops valueForKey:name];
 	id value = [looper nextObject];
 	if (value) {
-		[values setValue:value forKey:name];
+		[_values setValue:value forKey:name];
 	} else {
 		// clean up because we're DONE
-		[loops removeObjectForKey:name];
-		[values removeObjectForKey:name];
+		[_loops removeObjectForKey:name];
+		[_values removeObjectForKey:name];
 	}
 	return value;
 }
@@ -85,10 +85,10 @@ static NSString *TemplateRepeatKey = @"for";
 	id value;
 	
 	if ([key isEqualToString:TemplateRepeatKey]) {
-		return loops;
-	} else if ((value = [defines valueForKey:key])) {
+		return _loops;
+	} else if ((value = [_defines valueForKey:key])) {
 		return value;
-	} else if ((looper = [loops valueForKey:key])) {
+	} else if ((looper = [_loops valueForKey:key])) {
 		return [looper currentObject];
 	} else {
 //		// having a mark indicates we have a template
@@ -96,7 +96,7 @@ static NSString *TemplateRepeatKey = @"for";
 //		if (range.location != NSNotFound)
 //			return [key stringWithTemplateValues:values];
 //		// else
-		return [values valueForKey:key];
+		return [_values valueForKey:key];
 	}
 }
 
@@ -116,7 +116,7 @@ static NSString *TemplateRepeatKey = @"for";
 	NSXMLDocument *doc = [[NSXMLDocument alloc] initWithContentsOfFile:path];
 	//  NSString *prefix = [[TAL_prefix componentsSeparatedByString:@":"] objectAtIndex:0];
 	//  [doc processTaggedAttributesWithPrefix:prefix context:self];
-	return [doc autorelease];
+	return doc;
 }
 
 // Template processing
@@ -136,13 +136,13 @@ static NSString *TemplateRepeatKey = @"for";
 				initWithContentsOfURL:url
 							  options:(NSXMLDocumentTidyXML|NSXMLNodePrettyPrint) error:&error];
 	
-	return [self documentUsingTemplate:[templateDoc autorelease]];
+	return [self documentUsingTemplate:templateDoc];
 }
 
 -(NSXMLDocument*)documentUsingTemplateURL:(NSURL*)url withValue:value forKey:(NSString*)key 
 {
 	NSXMLDocument *doc;
-	[defines setValue:value forKey:key];
+	[_defines setValue:value forKey:key];
 	doc = [self documentUsingTemplateURL:url];
 	return doc;
 }

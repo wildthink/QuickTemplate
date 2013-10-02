@@ -263,14 +263,23 @@ static BOOL BooleanValue(id nob) {
 
 - (NSMutableAttributedString*)appendToAttributedString:(NSMutableAttributedString*)astr usingRootValue:root
 {
+    return [self executeCodes:self.pcode appendingToAttributedString:astr usingRootValue:root inScope:@{}];
+}
+
+- (NSMutableAttributedString*)executeCodes:(NSArray*)codes
+               appendingToAttributedString:(NSMutableAttributedString*)astr
+                            usingRootValue:root
+                                   inScope:(NSDictionary*)scope
+{
     QTCmdType code;
     NSAttributedString *as;
     id value;
     pcode *pc;
-    NSInteger cnt = [self.pcode count];
+    NSInteger cnt = [codes count];
     NSMutableArray *stack = [NSMutableArray array]; // Holds numbers to build the tag range
-//    NSMutableArray *scope = [NSMutableArray array]; // Holds variable frames for loops
     NSInteger stackNdx;
+    NSArray *list;
+
     BOOL flag;
     
     
@@ -278,7 +287,7 @@ static BOOL BooleanValue(id nob) {
     {
         NSInteger curpos = [astr length];
         
-        id item = [self.pcode objectAtIndex:ndx];
+        id item = [codes objectAtIndex:ndx];
         if ([item isKindOfClass:[NSString class]]) {
             [astr appendAttributedString:[[NSAttributedString alloc] initWithString:item]];
             continue;
@@ -339,7 +348,7 @@ static BOOL BooleanValue(id nob) {
                 if (!pc.isEndTag) {
                     flag = BooleanValue([root valueForKeyPath:pc.arg1]);
                     if (!flag) {
-                        stackNdx = [self.pcode indexOfObjectIdenticalTo:pc.matching_pcode];
+                        stackNdx = [codes indexOfObjectIdenticalTo:pc.matching_pcode];
                         if (stackNdx != NSNotFound) {
                             ndx = stackNdx - 1;
                         }
@@ -351,7 +360,7 @@ static BOOL BooleanValue(id nob) {
                 if (!pc.isEndTag) {
                     flag = BooleanValue([root valueForKeyPath:pc.arg1]);
                     if (flag) {
-                        stackNdx = [self.pcode indexOfObjectIdenticalTo:pc.matching_pcode];
+                        stackNdx = [codes indexOfObjectIdenticalTo:pc.matching_pcode];
                         if (stackNdx != NSNotFound) {
                             ndx = stackNdx - 1;
                         }
@@ -360,16 +369,15 @@ static BOOL BooleanValue(id nob) {
                 break;
 
             case QTCmdLoop:
- /*                    NSArray *list = [root valuedForKey:pc.arg2];
-                 scope = [Scope scopeIn:scope];
-                    for (id item in list) {
-                        [scope setObject:item forKey:pc.arg1];
-                        NSUInteger endNdx = [self.pcode indexOfObjectIdenticalTo:pc.matching_pcode];
-                        [self runCode:[self.pcode subarrayWithRange:NSMakeRange(ndx, (endNdx - ndx))]
-          appendingToAttributedString:astr root:root inScope:scope];
+                list = [root valueForKeyPath:pc.arg2];
+                for (id item in list) {
+                    scope = [scope pushScope:@{pc.arg1: item}];
+                    NSUInteger endNdx = [codes indexOfObjectIdenticalTo:pc.matching_pcode];
+                    [self executeCodes:[codes subarrayWithRange:NSMakeRange(ndx, (endNdx - ndx))]
+                                                appendingToAttributedString:astr usingRootValue:root inScope:scope];
                 }
-                 scope = [scope pop];
-                 */
+                 scope = [scope popScope];
+                
             default:
                 break;
         }

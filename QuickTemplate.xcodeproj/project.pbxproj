@@ -724,6 +724,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "QuickTemplateTests/QuickTemplateTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -742,6 +743,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QuickTemplate/QuickTemplate-Prefix.pch";
 				INFOPLIST_FILE = "QuickTemplateTests/QuickTemplateTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -758,6 +760,7 @@
 				9630111E17F90028004BB35D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9630112217F90028004BB35D /* Build configuration list for PBXNativeTarget "iOSQuickTemplateTests" */ = {
 			isa = XCConfigurationList;
@@ -766,6 +769,7 @@
 				9630112017F90028004BB35D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		967A79DD17EE500E00DD2A64 /* Build configuration list for PBXProject "QuickTemplate" */ = {
 			isa = XCConfigurationList;

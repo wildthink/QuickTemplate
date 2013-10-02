@@ -51,7 +51,7 @@ static BOOL g_tal_debug = NO;
                                      forEach:(NSString*)ident inArray:(NSArray*)values
 {
   // remove tal:repeat to avoid infinite loop
-  [self removeAttributeForName:context->TAL_repeat];
+  [self removeAttributeForName:context.TAL_repeat];
   NSXMLElement *parent = (NSXMLElement*)[self parent]; // get it before we detach
   [self detach];
     
@@ -74,7 +74,6 @@ static BOOL g_tal_debug = NO;
   TALContext *tc = [[TALContext alloc] initWithValues:context prefix:prefix];
   [tc setDelegate:anObject];
   [self processTaggedAttributesWithTALContext:tc];
-  [tc release];
   return self;
 }
 
@@ -83,7 +82,7 @@ static BOOL g_tal_debug = NO;
   NSString *talCommand;
   id value;
   
-  if (talCommand = [[self attributeForName:context->TAL_condition] stringValue]) {
+  if ((talCommand = [[self attributeForName:context.TAL_condition] stringValue])) {
     if ([talCommand length]) {
       value = [context valueForKeyPath:talCommand];
     } else {
@@ -92,47 +91,46 @@ static BOOL g_tal_debug = NO;
     if ([value intValue] == 0)
       [self detach];
     
-    if (![context debug]) [self removeAttributeForName:context->TAL_condition];
+    if (![context debug]) [self removeAttributeForName:context.TAL_condition];
   }
   
-  if (talCommand = [[self attributeForName:context->TAL_repeat] stringValue]) {
+  if ((talCommand = [[self attributeForName:context.TAL_repeat] stringValue])) {
     NSArray *array = [talCommand componentsSeparatedByString:@" "];
     value = [context valueForKeyPath:[array objectAtIndex:1]];
     [self processTaggedAttributesWithTALContext:(TALContext*)context forEach:[array objectAtIndex:0] inArray:value];
     return;
   }
     
-  if (talCommand = [[self attributeForName:context->TAL_replace] stringValue]) {
-    if (value = [context valueForKeyPath:talCommand]) {
+  if ((talCommand = [[self attributeForName:context.TAL_replace] stringValue])) {
+    if ((value = [context valueForKeyPath:talCommand])) {
       NSXMLElement *parent = (NSXMLElement*)[self parent];
-      unsigned myIndex = [self index]; // [[parent children] indexOfObject:self];
+      NSUInteger myIndex = [self index]; // [[parent children] indexOfObject:self];
       NSXMLNode *node = [[NSXMLNode alloc] initWithKind:NSXMLTextKind];
 	  // node = [NSXMLNode textWithStringValue:value];
       //[node setStringValue:value];
 	  [node setObjectValue:value]; // treats value as a literal
       [parent replaceChildAtIndex:myIndex withNode:node];
-	  [node release];
     }
     return;
   }
   
-  if (talCommand = [[self attributeForName:context->TAL_content] stringValue]) {
+  if ((talCommand = [[self attributeForName:context.TAL_content] stringValue])) {
     value = [context valueForKeyPath:talCommand];
     [self setStringValue:value resolvingEntities:NO];
-    if (![context debug]) [self removeAttributeForName:context->TAL_content];
+    if (![context debug]) [self removeAttributeForName:context.TAL_content];
   }
 /*  
-  if (talCommand = [[self attributeForName:context->TAL_cdata] stringValue]) {
+  if (talCommand = [[self attributeForName:context.TAL_cdata] stringValue]) {
     value = [context valueForKeyPath:talCommand];
     [self set
     [self setStringValue:value resolvingEntities:YES];
-    if (![context debug]) [self removeAttributeForName:context->TAL_content];
+    if (![context debug]) [self removeAttributeForName:context.TAL_content];
   }
 */
-  if (talCommand = [[self attributeForName:context->TAL_include] stringValue]) {
+  if ((talCommand = [[self attributeForName:context.TAL_include] stringValue])) {
     NSXMLDocument *doc = [context loadContentsOfResource:talCommand];
     NSXMLElement *parent = (NSXMLElement*)[self parent];
-    unsigned myIndex = [self index]; // [[parent children] indexOfObject:self];
+    NSUInteger myIndex = [self index]; // [[parent children] indexOfObject:self];
     NSXMLElement *node = [doc rootElement];
     [node detach];
     [parent replaceChildAtIndex:myIndex withNode:node];
@@ -140,7 +138,7 @@ static BOOL g_tal_debug = NO;
     return;
   }
   
-  if ((talCommand = [[self attributeForName:context->TAL_attributes] stringValue]) && [talCommand length])
+  if ((talCommand = [[self attributeForName:context.TAL_attributes] stringValue]) && [talCommand length])
   {
     NSDictionary *attr = [self parseTALAttributes:talCommand];
     NSEnumerator *keyCurs = [attr keyEnumerator];
@@ -153,10 +151,10 @@ static BOOL g_tal_debug = NO;
       [self addAttribute:attribute];
     }
            
-    if (![context debug]) [self removeAttributeForName:context->TAL_attributes];
+    if (![context debug]) [self removeAttributeForName:context.TAL_attributes];
   }
   
-  if (talCommand = [[self attributeForName:context->TAL_omit] stringValue]) {
+  if ((talCommand = [[self attributeForName:context.TAL_omit] stringValue])) {
     if ([talCommand length]) {
       value = [context valueForKeyPath:talCommand];
     } else {
@@ -164,7 +162,7 @@ static BOOL g_tal_debug = NO;
     }
     if ([value intValue] == 1) {
       id parent = [self parent];
-      unsigned ndx = [self index]; // [[parent children] indexOfObject:self];
+      NSUInteger ndx = [self index]; // [[parent children] indexOfObject:self];
       [self detach];
       NSEnumerator *curs = [[self children] objectEnumerator];
       NSXMLElement *node;
@@ -174,16 +172,16 @@ static BOOL g_tal_debug = NO;
         ++ndx;
       }
     }
-    if (![context debug]) [self removeAttributeForName:context->TAL_omit];
+    if (![context debug]) [self removeAttributeForName:context.TAL_omit];
   }
   
-  if (context->delegate) {
+  if (context.delegate) {
     NSEnumerator *attrCurs = [[self attributes] objectEnumerator];
     NSXMLElement *node;
     
     while (node = [attrCurs nextObject]) {
-      if ([[node name] hasPrefix:context->TAL_prefix])
-        node = [context->delegate processTaggedAttribute:node forElement:self inTALContext:context];
+      if ([[node name] hasPrefix:context.TAL_prefix])
+        node = [context.delegate processTaggedAttribute:node forElement:self inTALContext:context];
     }
   }
   

@@ -11,16 +11,18 @@
 
 @interface TALContext : NSObject
 {
-	NSString *TAL_prefix;
-	NSString *TAL_condition;
-	NSString *TAL_content;
-	NSString *TAL_replace;
-	NSString *TAL_attributes;
-	NSString *TAL_omit;
-	NSString *TAL_include;
-	NSString *TAL_repeat;
-	
 }
+
+@property (strong, nonatomic) NSString *TAL_prefix;
+@property (strong, nonatomic) NSString *TAL_condition;
+@property (strong, nonatomic) NSString *TAL_content;
+@property (strong, nonatomic) NSString *TAL_replace;
+@property (strong, nonatomic) NSString *TAL_attributes;
+@property (strong, nonatomic) NSString *TAL_omit;
+@property (strong, nonatomic) NSString *TAL_include;
+@property (strong, nonatomic) NSString *TAL_repeat;
+
+
 @property (weak, nonatomic) id delegate;
 @property (strong, nonatomic) NSMutableDictionary *defines;
 @property (strong, nonatomic) NSMutableDictionary *loops;

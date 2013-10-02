@@ -30,7 +30,6 @@
 - processTaggedAttributesWithPrefix:(NSString*)prefix context:context delegate:anObject;
 - processTaggedAttributesWithPrefix:(NSString*)prefix context:context;
 
-+ (void)setDebugTaggedAttributeProcessing:(BOOL)flag;
 - (void)processTaggedAttributesWithTALContext:(TALContext*)context;
 
 @end

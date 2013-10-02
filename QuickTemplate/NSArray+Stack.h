@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *ScopeParentKey;
+
 @interface NSArray (Stack)
 - top;
 @end
@@ -16,4 +18,12 @@
 @interface NSMutableArray (Stack)
 - pop;
 - (void) push:item;
+@end
+
+
+@interface NSDictionary (ISScope)
+
+- (NSDictionary*)popScope;
+- (NSDictionary*)pushScope:(NSDictionary*)newValues;
+
 @end

@@ -8,6 +8,9 @@
 
 #import "NSArray+Stack.h"
 
+NSString *ScopeParentKey = @"__ScopeParentKey";
+
+
 @implementation NSArray (Stack)
 
 - top {
@@ -28,6 +31,22 @@
 
 - (void) push:item {
     [self addObject:item];
+}
+
+@end
+
+
+@implementation NSDictionary (ISScope)
+
+- (NSDictionary*)popScope {
+    return [self objectForKey:ScopeParentKey];
+}
+
+- (NSDictionary*)pushScope:(NSDictionary*)newValues
+{
+    NSMutableDictionary *mdict = [newValues mutableCopy];
+    [mdict setValue:mdict forKey:ScopeParentKey];
+    return mdict;
 }
 
 @end

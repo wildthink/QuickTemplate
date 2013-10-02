@@ -36,9 +36,9 @@
 
 -(BOOL)odd;
 -(BOOL)even;
--(unsigned)index;
--(unsigned)number;
--(unsigned)length;
+-(NSUInteger)index;
+-(NSUInteger)number;
+-(NSUInteger)length;
 
 - currentObject;
 - nextObject;

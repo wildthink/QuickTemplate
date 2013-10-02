@@ -52,11 +52,16 @@
 - initWithString:(NSString*)template stylesheet:(NSDictionary*)stylesheet;
 
 - (NSAttributedString*)attributedStringUsingRootValue:root;
-- (NSMutableAttributedString*)insertAttributedStringUsingRootValue:root
-                                             intoAttributedString:(NSMutableAttributedString*)astr
-                                                               at:(NSInteger)pos;
+//- (NSMutableAttributedString*)insertAttributedStringUsingRootValue:root
+//                                             intoAttributedString:(NSMutableAttributedString*)astr
+//                                                               at:(NSInteger)pos;
+
+- (NSMutableAttributedString*)appendToAttributedString:(NSMutableAttributedString*)astr usingRootValue:root;
 
 - (NSDictionary*)textAttributesForKey:(NSString*)styleKey;
 - (NSImage*)imageForKey:(NSString*)key;
+
+//- (NSMutableAttributedString*)executeCodes:(NSArray*)codes
+//                  appendToAttributedString:(NSMutableAttributedString*)astr usingRootValue:root;
 
 @end
