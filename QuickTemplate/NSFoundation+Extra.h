@@ -1,5 +1,5 @@
 //
-//  NSArray+Stack.h
+//  NSFoundation+Extra.h
 //  QuickTemplate
 //
 //  Created by Jason Jobe on 9/22/13.

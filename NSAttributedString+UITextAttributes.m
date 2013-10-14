@@ -15,11 +15,25 @@
 - (NSAttributedString*)attributedStringWithCurrentTextStyle
 {
     
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:self  ];
-    NSRange range = NSMakeRange(0, attributedString.length - 1);
+    NSMutableAttributedString *attributedString = [self mutableCopy];
+    return [attributedString updateWithCurrentTextStyle];
+}
+
+
+@end
+
+/// NSMutableString
+
+@implementation NSMutableAttributedString (UITextAttributes)
+
+- (NSAttributedString*)updateWithCurrentTextStyle
+{
+    NSRange range = NSMakeRange(0, self.length - 1);
+    
+    [self beginEditing];
     
     // Walk the string's attributes
-    [attributedString enumerateAttributesInRange:range options:NSAttributedStringEnumerationReverse usingBlock:
+    [self enumerateAttributesInRange:range options:NSAttributedStringEnumerationReverse usingBlock:
      ^(NSDictionary *attributes, NSRange range, BOOL *stop) {
          
          // Find the font descriptor which is based on the old font size change
@@ -36,7 +50,8 @@
          [attributedString addAttribute:NSFontAttributeName value:newFont range:range];
      }];
     
-    return attributedString;
+    [self endEditing];
+    return self;
 }
 
 

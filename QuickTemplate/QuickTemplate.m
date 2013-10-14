@@ -52,7 +52,7 @@
 
 #import "QuickTemplate.h"
 #import "JREnum.h"
-#import "NSArray+Stack.h"
+#import "NSFoundation+Extra.h"
 
 
 //typedef NS_ENUM(NSInteger, QTCmdType) {
@@ -249,6 +249,11 @@ static BOOL BooleanValue(id nob) {
 }
 
 - (NSDictionary*)textAttributesForKey:(NSString*)styleKey {
+    id value = [self.alternateStylesheet objectForKey:styleKey];
+    if (value) {
+        return value;
+    }
+    // else
     return [self.stylesheet objectForKey:styleKey];
 }
 
@@ -258,7 +263,15 @@ static BOOL BooleanValue(id nob) {
 
 - (NSAttributedString*)attributedStringUsingRootValue:root;
 {
-    return [self appendToAttributedString:[[NSMutableAttributedString alloc] init] usingRootValue:root];
+    return [self attributedStringUsingRootValue:root alternateStylesheet:nil];
+}
+
+- (NSAttributedString*)attributedStringUsingRootValue:root alternateStylesheet:(NSDictionary*)alternateStyles;
+{
+    self.alternateStylesheet = alternateStyles;
+    NSAttributedString *attrStr = [self appendToAttributedString:[[NSMutableAttributedString alloc] init] usingRootValue:root];
+    self.alternateStylesheet = nil;
+    return attrStr;
 }
 
 - (NSMutableAttributedString*)appendToAttributedString:(NSMutableAttributedString*)astr usingRootValue:root

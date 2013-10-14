@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "QuickTemplate.h"
 
+
 @interface QuickTemplateTests : XCTestCase
 
 @property (strong, nonatomic) NSDictionary *stylesheet;
@@ -22,6 +23,7 @@
 - (void)setUp
 {
     [super setUp];
+//    NSFontDescriptor *fontd = [NSFontDescriptor fontDescriptorWithName:<#(NSString *)#> size:0.0];
     self.stylesheet =
     @{
         @"bold": @{ NSFontAttributeName: [NSFont boldSystemFontOfSize:12.0] }
@@ -50,7 +52,7 @@
 
 - (void)testNotIfConstructs
 {
-    NSString *tmpl = @"Hi this is <show:false>here</show> not <omit:true>false</omit>";
+    NSString *tmpl = @"Hi this is <show:false>here</show>not <omit:true>false</omit>";
     NSString *expected = @"Hi this is not ";
     QuickTemplate *qt = [[QuickTemplate alloc] initWithString:tmpl stylesheet:self.stylesheet];
     NSAttributedString *str = [qt attributedStringUsingRootValue:self.root];

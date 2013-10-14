@@ -31,8 +31,8 @@
 		967A7A0017EE500E00DD2A64 /* QuickTemplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 967A79E317EE500E00DD2A64 /* QuickTemplate.framework */; };
 		967A7A0617EE500E00DD2A64 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 967A7A0417EE500E00DD2A64 /* InfoPlist.strings */; };
 		967A7A0817EE500E00DD2A64 /* QuickTemplateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 967A7A0717EE500E00DD2A64 /* QuickTemplateTests.m */; };
-		967A7A1417EF822100DD2A64 /* NSArray+Stack.h in Headers */ = {isa = PBXBuildFile; fileRef = 967A7A1217EF822100DD2A64 /* NSArray+Stack.h */; };
-		967A7A1517EF822100DD2A64 /* NSArray+Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = 967A7A1317EF822100DD2A64 /* NSArray+Stack.m */; };
+		967A7A1417EF822100DD2A64 /* NSFoundation+Extra.h in Headers */ = {isa = PBXBuildFile; fileRef = 967A7A1217EF822100DD2A64 /* NSFoundation+Extra.h */; };
+		967A7A1517EF822100DD2A64 /* NSFoundation+Extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 967A7A1317EF822100DD2A64 /* NSFoundation+Extra.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,8 +100,10 @@
 		967A7A0517EE500E00DD2A64 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		967A7A0717EE500E00DD2A64 /* QuickTemplateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuickTemplateTests.m; sourceTree = "<group>"; };
 		967A7A1117EF6B7800DD2A64 /* JREnum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JREnum.h; sourceTree = "<group>"; };
-		967A7A1217EF822100DD2A64 /* NSArray+Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Stack.h"; sourceTree = "<group>"; };
-		967A7A1317EF822100DD2A64 /* NSArray+Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Stack.m"; sourceTree = "<group>"; };
+		967A7A1217EF822100DD2A64 /* NSFoundation+Extra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFoundation+Extra.h"; sourceTree = "<group>"; };
+		967A7A1317EF822100DD2A64 /* NSFoundation+Extra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFoundation+Extra.m"; sourceTree = "<group>"; };
+		C9706A5C17FCE39D0045EEA3 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		C9706A5D17FCE39D0045EEA3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +208,8 @@
 		967A79D917EE500E00DD2A64 = {
 			isa = PBXGroup;
 			children = (
+				C9706A5C17FCE39D0045EEA3 /* LICENSE */,
+				C9706A5D17FCE39D0045EEA3 /* README.md */,
 				9630113C17FA09A7004BB35D /* XTAL */,
 				9630113B17FA099B004BB35D /* iOS */,
 				967A79EC17EE500E00DD2A64 /* QuickTemplate */,
@@ -257,8 +261,8 @@
 				967A79F417EE500E00DD2A64 /* QuickTemplate.m */,
 				967A79ED17EE500E00DD2A64 /* Supporting Files */,
 				967A7A1117EF6B7800DD2A64 /* JREnum.h */,
-				967A7A1217EF822100DD2A64 /* NSArray+Stack.h */,
-				967A7A1317EF822100DD2A64 /* NSArray+Stack.m */,
+				967A7A1217EF822100DD2A64 /* NSFoundation+Extra.h */,
+				967A7A1317EF822100DD2A64 /* NSFoundation+Extra.m */,
 			);
 			path = QuickTemplate;
 			sourceTree = "<group>";
@@ -299,7 +303,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9630113517FA00A7004BB35D /* TALContext.h in Headers */,
-				967A7A1417EF822100DD2A64 /* NSArray+Stack.h in Headers */,
+				967A7A1417EF822100DD2A64 /* NSFoundation+Extra.h in Headers */,
 				9630113217FA00A7004BB35D /* NSXMLNode+TAL.h in Headers */,
 				9630113817FA00A7004BB35D /* WTIterator.h in Headers */,
 			);
@@ -466,7 +470,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				967A79F517EE500E00DD2A64 /* QuickTemplate.m in Sources */,
-				967A7A1517EF822100DD2A64 /* NSArray+Stack.m in Sources */,
+				967A7A1517EF822100DD2A64 /* NSFoundation+Extra.m in Sources */,
 				9630113317FA00A7004BB35D /* NSXMLNode+TAL.m in Sources */,
 				9630113617FA00A7004BB35D /* TALContext.m in Sources */,
 				9630113917FA00A7004BB35D /* WTIterator.m in Sources */,
@@ -688,6 +692,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QuickTemplate/QuickTemplate-Prefix.pch";
 				INFOPLIST_FILE = "QuickTemplate/QuickTemplate-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -703,6 +708,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QuickTemplate/QuickTemplate-Prefix.pch";
 				INFOPLIST_FILE = "QuickTemplate/QuickTemplate-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};

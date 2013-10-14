@@ -46,22 +46,18 @@
 @interface QuickTemplate : NSObject
 
 @property (strong, nonatomic) NSDictionary *stylesheet;
+@property (strong, nonatomic) NSDictionary *alternateStylesheet;
 @property (strong, nonatomic) NSString *template;
 @property (strong, nonatomic) NSArray *pcode;
 
 - initWithString:(NSString*)template stylesheet:(NSDictionary*)stylesheet;
 
 - (NSAttributedString*)attributedStringUsingRootValue:root;
-//- (NSMutableAttributedString*)insertAttributedStringUsingRootValue:root
-//                                             intoAttributedString:(NSMutableAttributedString*)astr
-//                                                               at:(NSInteger)pos;
+- (NSAttributedString*)attributedStringUsingRootValue:root alternateStylesheet:(NSDictionary*)alternateStyles;
 
 - (NSMutableAttributedString*)appendToAttributedString:(NSMutableAttributedString*)astr usingRootValue:root;
 
 - (NSDictionary*)textAttributesForKey:(NSString*)styleKey;
 - (NSImage*)imageForKey:(NSString*)key;
-
-//- (NSMutableAttributedString*)executeCodes:(NSArray*)codes
-//                  appendToAttributedString:(NSMutableAttributedString*)astr usingRootValue:root;
 
 @end

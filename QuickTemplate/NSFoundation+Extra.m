@@ -1,12 +1,12 @@
 //
-//  NSArray+Stack.m
+//  NSFoundation+Extra.m
 //  QuickTemplate
 //
 //  Created by Jason Jobe on 9/22/13.
 //  Copyright (c) 2013 Jason Jobe. All rights reserved.
 //
 
-#import "NSArray+Stack.h"
+#import "NSFoundation+Extra.h"
 
 NSString *ScopeParentKey = @"__ScopeParentKey";
 
