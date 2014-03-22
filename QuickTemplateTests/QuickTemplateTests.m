@@ -8,6 +8,8 @@
 
 #import <XCTest/XCTest.h>
 #import "QuickTemplate.h"
+#import "NSAttributedString+UITextAttributes.h"
+
 
 @interface QuickTemplateTests : XCTestCase
 
@@ -64,6 +66,20 @@
     NSAttributedString *str = [qt attributedStringUsingRootValue:self.root];
     NSLog (@"styled: %@", str);
 
+}
+
+- (void)testTemplateVariables
+{
+    QuickTemplate *qt = [[QuickTemplate alloc] initWithString:self.templateString stylesheet:self.stylesheet];
+    NSAttributedString *str = [qt attributedStringUsingRootValue:self.root];
+
+    NSLog (@"styled: %@", str);
+
+    NSSet *variables = [str quickTemplateVariables];
+    NSLog (@"Variables: %@", variables);
+
+    str = [str attributedStringWithUpdatedValues:@{@"name": @"Spacely", @"age": @45}];
+    NSLog (@"String: %@", str);
 }
 
 - (void)testStyles

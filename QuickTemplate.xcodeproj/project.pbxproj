@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		962BCDA518DD3C120093ADC4 /* NSAttributedString+UITextAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 9630112417F9006D004BB35D /* NSAttributedString+UITextAttributes.m */; };
 		9630110117F90027004BB35D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9630110017F90027004BB35D /* Foundation.framework */; };
 		9630110617F90027004BB35D /* iOSQuickTemplate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9630110517F90027004BB35D /* iOSQuickTemplate.h */; };
 		9630110817F90027004BB35D /* iOSQuickTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9630110717F90027004BB35D /* iOSQuickTemplate.m */; };
@@ -16,7 +17,6 @@
 		9630111417F90028004BB35D /* libiOSQuickTemplate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 963010FF17F90027004BB35D /* libiOSQuickTemplate.a */; };
 		9630111A17F90028004BB35D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9630111817F90028004BB35D /* InfoPlist.strings */; };
 		9630111C17F90028004BB35D /* iOSQuickTemplateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9630111B17F90028004BB35D /* iOSQuickTemplateTests.m */; };
-		9630112517F9006D004BB35D /* NSAttributedString+UITextAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 9630112417F9006D004BB35D /* NSAttributedString+UITextAttributes.m */; };
 		9630113217FA00A7004BB35D /* NSXMLNode+TAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 9630112917FA00A7004BB35D /* NSXMLNode+TAL.h */; };
 		9630113317FA00A7004BB35D /* NSXMLNode+TAL.m in Sources */ = {isa = PBXBuildFile; fileRef = 9630112A17FA00A7004BB35D /* NSXMLNode+TAL.m */; };
 		9630113517FA00A7004BB35D /* TALContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 9630112B17FA00A7004BB35D /* TALContext.h */; };
@@ -449,7 +449,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9630110817F90027004BB35D /* iOSQuickTemplate.m in Sources */,
-				9630112517F9006D004BB35D /* NSAttributedString+UITextAttributes.m in Sources */,
+				962BCDA518DD3C120093ADC4 /* NSAttributedString+UITextAttributes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

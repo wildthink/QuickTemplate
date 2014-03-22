@@ -13,3 +13,10 @@
 - (NSAttributedString*)attributedStringWithCurrentTextStyle;
 
 @end
+
+
+@interface NSMutableAttributedString (UITextAttributes)
+
+- (NSAttributedString*)attributedStringWithCurrentTextStyle;
+
+@end

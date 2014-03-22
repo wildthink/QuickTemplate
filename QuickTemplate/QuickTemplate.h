@@ -43,6 +43,10 @@
 
 #import <Foundation/Foundation.h>
 
+static const NSString *QTValueKey = @"QTValue";
+static const NSString *QTValueFormatterKey = @"QTValueFormatter";
+
+
 @interface QuickTemplate : NSObject
 
 @property (strong, nonatomic) NSDictionary *stylesheet;
@@ -65,3 +69,19 @@
 //                  appendToAttributedString:(NSMutableAttributedString*)astr usingRootValue:root;
 
 @end
+
+
+@interface NSAttributedString (QuickTemplateExtensions)
+
+- (NSSet*)quickTemplateVariables;
+- (NSAttributedString*)attributedStringWithUpdatedValues:(NSDictionary*)values;
+
+@end
+
+
+@interface NSMutableAttributedString (QuickTemplateExtensions)
+
+- (NSAttributedString*)attributedStringWithUpdatedValues:(NSDictionary*)values;
+
+@end
+

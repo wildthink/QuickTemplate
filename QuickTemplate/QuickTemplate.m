@@ -337,7 +337,8 @@ static BOOL BooleanValue(id nob) {
 //                        block();
 //                    }
                     if (value) {
-                        as = [[NSAttributedString alloc] initWithString:[value description]];
+                        NSDictionary *attributes = @{QTValueKey: pc.arg1};
+                        as = [[NSAttributedString alloc] initWithString:[value description] attributes:attributes];
                         [astr appendAttributedString:as];
                     }
                 }
@@ -412,3 +413,61 @@ static BOOL BooleanValue(id nob) {
 
 @end
 
+
+@implementation NSAttributedString (QuickTemplateExtensions)
+
+
+- (NSSet*)quickTemplateVariables;
+{
+    NSRange range = NSMakeRange(0, self.length);
+
+    __block NSMutableSet *variables = [NSMutableSet set];
+
+    // Walk the string's attributes
+    [self enumerateAttributesInRange:range options:0 usingBlock:
+     ^(NSDictionary *attributes, NSRange range, BOOL *stop)
+     {
+         NSString *valueKey = attributes[QTValueKey];
+         if (valueKey) {
+             [variables addObject:valueKey];
+         }
+     }];
+
+    return [variables count] ? variables : nil;
+}
+
+- (NSAttributedString*)attributedStringWithUpdatedValues:(NSDictionary*)values;
+{
+    return [[self mutableCopy] attributedStringWithUpdatedValues:values];
+}
+
+@end
+
+
+@implementation NSMutableAttributedString (QuickTemplateExtensions)
+
+- (NSAttributedString*)attributedStringWithUpdatedValues:(NSDictionary*)values;
+{
+    NSRange range = NSMakeRange(0, self.length);
+
+    // Walk the string's attributes
+    [self enumerateAttributesInRange:range options:0 usingBlock:
+     ^(NSDictionary *attributes, NSRange range, BOOL *stop)
+     {
+         NSString *valueKey = attributes[QTValueKey];
+         if (!valueKey) {
+             return;
+         }
+         id newValue = values[valueKey];
+         if (newValue) {
+             // Should look for a formatter / transformer here as well !!
+             //            NSString *formatKey = attributes[@"QTValueFormatter"];
+             [self replaceCharactersInRange:range withString:[newValue description]];
+         }
+     }];
+
+    return self;
+}
+
+
+@end

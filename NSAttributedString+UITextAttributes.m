@@ -6,20 +6,19 @@
 //  Copyright (c) 2013 Jason Jobe. All rights reserved.
 //
 
-#import "NSAttributedString+UITextAttributes.h"
 #import <UIKit/UIKit.h>
+#import "NSAttributedString+UITextAttributes.h"
 
 
 @implementation NSAttributedString (UITextAttributes)
 
 - (NSAttributedString*)attributedStringWithCurrentTextStyle
 {
-    
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:self  ];
-    NSRange range = NSMakeRange(0, attributedString.length - 1);
+    NSRange range = NSMakeRange(0, attributedString.length);
     
     // Walk the string's attributes
-    [attributedString enumerateAttributesInRange:range options:NSAttributedStringEnumerationReverse usingBlock:
+    [attributedString enumerateAttributesInRange:range options:0 usingBlock:
      ^(NSDictionary *attributes, NSRange range, BOOL *stop) {
          
          // Find the font descriptor which is based on the old font size change
@@ -39,5 +38,36 @@
     return attributedString;
 }
 
+@end
+
+
+@implementation NSMutableAttributedString (UITextAttributes)
+
+- (NSAttributedString*)attributedStringWithCurrentTextStyle;
+{
+    NSRange range = NSMakeRange(0, attributedString.length);
+
+    // Walk the string's attributes
+    [self enumerateAttributesInRange:range options:0 usingBlock:
+     ^(NSDictionary *attributes, NSRange range, BOOL *stop) {
+         UIFont *font = attributes[@"NSFont"];
+         if (!font) {
+             return;
+         }
+         // Find the font descriptor which is based on the old font size change
+         NSMutableDictionary *mutableAttributes = [NSMutableDictionary dictionaryWithDictionary:attributes];
+         UIFontDescriptor *fontDescriptor = font.fontDescriptor;
+
+         // Get the text style and get a new font descriptor based on the style and update font size
+         id styleAttribute = [fontDescriptor objectForKey:UIFontDescriptorTextStyleAttribute];
+         UIFontDescriptor *newFontDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:styleAttribute];
+
+         // Get the new font from the new font descriptor and update the font attribute over the range
+         UIFont *newFont = [UIFont fontWithDescriptor:newFontDescriptor size:0.0];
+         [self addAttribute:NSFontAttributeName value:newFont range:range];
+     }];
+
+    return self;
+}
 
 @end
