@@ -50,7 +50,7 @@
 
 - (void)testNotIfConstructs
 {
-    NSString *tmpl = @"Hi this is <show:false>here</show> not <omit:true>false</omit>";
+    NSString *tmpl = @"Hi this is <show:false>here </show>not <omit:true>false</omit>";
     NSString *expected = @"Hi this is not ";
     QuickTemplate *qt = [[QuickTemplate alloc] initWithString:tmpl stylesheet:self.stylesheet];
     NSAttributedString *str = [qt attributedStringUsingRootValue:self.root];
@@ -82,5 +82,6 @@
     NSLog (@"pcode: %@", qt.pcode);
 //    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
 }
+
 
 @end

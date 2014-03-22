@@ -22,10 +22,19 @@
  The following commands are supported. The full name or the first character may be used, the exception being
  the 'if' and 'ifnot' commands.
  
+ Values are optionally (based on template option flag) are marked with QTValue attribute holds the keypath to the value.
+ This is useful if, for example, the value is a Date, Time, or UnitValue that should be localized or periodically updated.
+ 
+ Styles support dynamic text annotations which provide hooks to responders to text size notifications.
+
  v)alue
      <v:myname/>
      <v:myname>default name</v>
  
+ f)ormat
+    <f:var>             ==> uses the default formatter for the data type of the value found at var
+    <f:formatter:var>
+
  s)tyle
     <s:stylename>Some text to style</s>
  
@@ -57,7 +66,7 @@
 
 //typedef NS_ENUM(NSInteger, QTCmdType) {
 JREnum(QTCmdType,
-    QTCmdUnknown,
+    QTCmdUnknown = 0,
     QTCmdValue,
     QTCmdStyle,
     QTCmdLoop,
@@ -67,6 +76,16 @@ JREnum(QTCmdType,
     QTCmdUseIf,
     QTCmdEnd
 );
+
+
+//static BOOL IsBlock (id value) {
+//    id block = ^{};
+//    Class blockClass = [block class];
+//    while ([blockClass superclass] != [NSObject class]) {
+//        blockClass = [blockClass superclass];
+//    }
+//    return [value isKindOfClass:blockClass];
+//}
 
 static BOOL BooleanValue(id nob) {
     if ([nob isKindOfClass:[NSNumber class]] && [nob integerValue] == 0)
@@ -313,6 +332,10 @@ static BOOL BooleanValue(id nob) {
             case QTCmdValue:
                 if (pc.isEndTag) {
                     value = [root valueForKeyPath:pc.arg1];
+//                    if (IsBlock(value)) {
+//                        NSBlock *block = value;
+//                        block();
+//                    }
                     if (value) {
                         as = [[NSAttributedString alloc] initWithString:[value description]];
                         [astr appendAttributedString:as];
