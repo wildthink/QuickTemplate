@@ -49,6 +49,7 @@
 
 #import <Foundation/Foundation.h>
 
+
 #if TARGET_OS_IPHONE
 @import UIKit;
 @compatibility_alias Image UIImage;
@@ -60,6 +61,8 @@
 
 extern NSString* QTFormatterKey;
 extern NSString* QTValueKeypath;
+extern NSString *QTValueKey;
+
 
 @interface QuickTemplate : NSObject
 
@@ -79,3 +82,19 @@ extern NSString* QTValueKeypath;
 - (Image*)imageForKey:(NSString*)key;
 
 @end
+
+
+@interface NSAttributedString (QuickTemplateExtensions)
+
+- (NSSet*)quickTemplateVariables;
+- (NSAttributedString*)attributedStringWithUpdatedValues:(NSDictionary*)values;
+
+@end
+
+
+@interface NSMutableAttributedString (QuickTemplateExtensions)
+
+- (NSAttributedString*)attributedStringWithUpdatedValues:(NSDictionary*)values;
+
+@end
+

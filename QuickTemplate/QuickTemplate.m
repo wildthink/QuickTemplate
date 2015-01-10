@@ -15,10 +15,19 @@
  The following commands are supported. The full name or the first character may be used, the exception being
  the 'if' and 'ifnot' commands.
  
+ Values are optionally (based on template option flag) are marked with QTValue attribute holds the keypath to the value.
+ This is useful if, for example, the value is a Date, Time, or UnitValue that should be localized or periodically updated.
+ 
+ Styles support dynamic text annotations which provide hooks to responders to text size notifications.
+
  v)alue
      <v:myname/>
      <v:myname>default name</v>
  
+ f)ormat
+    <f:var>             ==> uses the default formatter for the data type of the value found at var
+    <f:formatter:var>
+
  s)tyle
     <s:stylename>Some text to style</s>
  
@@ -49,12 +58,12 @@
 
 NSString* QTFormatterKey = @"QTFormatterKey";
 NSString* QTValueKeypath = @"QTValueKeypath";
-
+NSString* QTValueKey = @"QTValueKey";
 
 typedef NS_ENUM(NSInteger, QTCmdType) {
 //JREnum(QTCmdType,
     QTCmdUnknown,
-    
+
     QTCmdValue,
     QTCmdStyle,
     QTCmdLoop,
@@ -109,6 +118,16 @@ static NSDictionary* pushScope (NSDictionary *self, NSDictionary* newValues) {
     [mdict setValue:mdict forKey:ScopeParentKey];
     return mdict;
 }
+
+
+//static BOOL IsBlock (id value) {
+//    id block = ^{};
+//    Class blockClass = [block class];
+//    while ([blockClass superclass] != [NSObject class]) {
+//        blockClass = [blockClass superclass];
+//    }
+//    return [value isKindOfClass:blockClass];
+//}
 
 static BOOL BooleanValue(id nob) {
     if ([nob isKindOfClass:[NSNumber class]] && [nob integerValue] == 0)
@@ -420,6 +439,10 @@ static BOOL BooleanValue(id nob) {
             case QTCmdValue:
                 if (pc.isEndTag) {
                     value = [root valueForKeyPath:pc.arg1];
+//                    if (IsBlock(value)) {
+//                        NSBlock *block = value;
+//                        block();
+//                    }
                     if (value) {
                         if (pc.arg2) {
                             // Then we may have a NSFormatter identifier
@@ -438,7 +461,9 @@ static BOOL BooleanValue(id nob) {
                                 strValue = [value description];
                             }
                         }
-                        as = [[NSAttributedString alloc] initWithString:strValue];
+//                        as = [[NSAttributedString alloc] initWithString:strValue];
+                        NSDictionary *attributes = @{QTValueKey: pc.arg1};
+                        as = [[NSAttributedString alloc] initWithString:strValue attributes:attributes];
                         [astr appendAttributedString:as];
                     }
                 }
@@ -521,3 +546,61 @@ static BOOL BooleanValue(id nob) {
 
 @end
 
+
+@implementation NSAttributedString (QuickTemplateExtensions)
+
+
+- (NSSet*)quickTemplateVariables;
+{
+    NSRange range = NSMakeRange(0, self.length);
+
+    __block NSMutableSet *variables = [NSMutableSet set];
+
+    // Walk the string's attributes
+    [self enumerateAttributesInRange:range options:0 usingBlock:
+     ^(NSDictionary *attributes, NSRange range, BOOL *stop)
+     {
+         NSString *valueKey = attributes[QTValueKey];
+         if (valueKey) {
+             [variables addObject:valueKey];
+         }
+     }];
+
+    return [variables count] ? variables : nil;
+}
+
+- (NSAttributedString*)attributedStringWithUpdatedValues:(NSDictionary*)values;
+{
+    return [[self mutableCopy] attributedStringWithUpdatedValues:values];
+}
+
+@end
+
+
+@implementation NSMutableAttributedString (QuickTemplateExtensions)
+
+- (NSAttributedString*)attributedStringWithUpdatedValues:(NSDictionary*)values;
+{
+    NSRange range = NSMakeRange(0, self.length);
+
+    // Walk the string's attributes
+    [self enumerateAttributesInRange:range options:0 usingBlock:
+     ^(NSDictionary *attributes, NSRange range, BOOL *stop)
+     {
+         NSString *valueKey = attributes[QTValueKey];
+         if (!valueKey) {
+             return;
+         }
+         id newValue = values[valueKey];
+         if (newValue) {
+             // Should look for a formatter / transformer here as well !!
+             //            NSString *formatKey = attributes[@"QTValueFormatter"];
+             [self replaceCharactersInRange:range withString:[newValue description]];
+         }
+     }];
+
+    return self;
+}
+
+
+@end

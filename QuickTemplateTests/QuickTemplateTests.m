@@ -8,6 +8,8 @@
 
 #import <XCTest/XCTest.h>
 #import "QuickTemplate.h"
+#import "NSAttributedString+UITextAttributes.h"
+
 
 static NSString *imageURL = @"http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png";
 
@@ -94,6 +96,20 @@ static NSString *imageURL = @"http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c
 
 }
 
+- (void)testTemplateVariables
+{
+    QuickTemplate *qt = [[QuickTemplate alloc] initWithString:self.templateString stylesheet:self.stylesheet];
+    NSAttributedString *str = [qt attributedStringUsingRootValue:self.root];
+
+    NSLog (@"styled: %@", str);
+
+    NSSet *variables = [str quickTemplateVariables];
+    NSLog (@"Variables: %@", variables);
+
+    str = [str attributedStringWithUpdatedValues:@{@"name": @"Spacely", @"age": @45}];
+    NSLog (@"String: %@", str);
+}
+
 - (void)testStyles
 {
     NSAttributedString *expected = [[NSAttributedString alloc] initWithString:@"heavyness" attributes:[self.stylesheet objectForKey:@"heavy"]];
@@ -141,5 +157,6 @@ static NSString *imageURL = @"http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c
     NSLog (@"pcode: %@", qt.pcode);
 //    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
 }
+
 
 @end
