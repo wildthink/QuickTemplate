@@ -6,13 +6,6 @@
 //  Copyright (c) 2013 Jason Jobe. All rights reserved.
 //
 
-/*
- Time-To-Code
- ------------
- 21Sep2013/4
- 22Sep2013/(+ 2 4)
- 
- */
 
 /*
  QuickTemplate uses delimters '<' and '>' to indicate and bracket template commands. It borrows the
@@ -51,22 +44,71 @@
  */
 
 #import "QuickTemplate.h"
-#import "JREnum.h"
-#import "NSFoundation+Extra.h"
+//#import "JREnum.h"
+//#import "NSFoundation+Extra.h"
+
+NSString* QTFormatterKey = @"QTFormatterKey";
+NSString* QTValueKeypath = @"QTValueKeypath";
 
 
-//typedef NS_ENUM(NSInteger, QTCmdType) {
-JREnum(QTCmdType,
+typedef NS_ENUM(NSInteger, QTCmdType) {
+//JREnum(QTCmdType,
     QTCmdUnknown,
+    
     QTCmdValue,
     QTCmdStyle,
     QTCmdLoop,
     QTCmdQuote,
     QTCmdAnchor,
+    QTCmdImage,
     QTCmdOmitIf,
     QTCmdUseIf,
     QTCmdEnd
-);
+};
+
+NSString *QTCmdTypeToString (QTCmdType type) {
+    switch (type) {
+        case QTCmdValue: return @"QTCmdValue";
+        case QTCmdStyle: return @"QTCmdStyle";
+        case QTCmdLoop: return @"QTCmdLoop";
+        case QTCmdQuote: return @"QTCmdQuote";
+        case QTCmdAnchor: return @"QTCmdAnchor";
+        case QTCmdImage: return @"QTCmdImage";
+        case QTCmdOmitIf: return @"QTCmdOmitIf";
+        case QTCmdUseIf: return @"QTCmdUseIf";
+        case QTCmdEnd: return @"QTCmdEnd";
+        
+        default:
+            return @"QTCmdUnknown";
+    }
+}
+
+static NSString *ScopeParentKey = @"__ScopeParentKey";
+
+//static id top (NSArray *self) {
+//    NSInteger ndx = [self count];
+//    return (ndx == 0 ? nil : [self objectAtIndex:(ndx - 1)]);
+//}
+
+static id pop (NSMutableArray *self) {
+    id last = [self lastObject];
+    [self removeLastObject];
+    return last;
+}
+
+static void push (NSMutableArray *self, id item) {
+    [self addObject:item];
+}
+
+static NSDictionary* popScope (NSDictionary *self) {
+    return [self objectForKey:ScopeParentKey];
+}
+
+static NSDictionary* pushScope (NSDictionary *self, NSDictionary* newValues) {
+    NSMutableDictionary *mdict = [newValues mutableCopy];
+    [mdict setValue:mdict forKey:ScopeParentKey];
+    return mdict;
+}
 
 static BOOL BooleanValue(id nob) {
     if ([nob isKindOfClass:[NSNumber class]] && [nob integerValue] == 0)
@@ -104,6 +146,7 @@ static BOOL BooleanValue(id nob) {
           @"s": @(QTCmdStyle),
           @"style": @(QTCmdStyle),
           @"a": @(QTCmdAnchor),
+          @"img": @(QTCmdImage),
           @"l": @(QTCmdLoop),
           @"loop": @(QTCmdLoop),
           @"q": @(QTCmdQuote),
@@ -139,6 +182,12 @@ static BOOL BooleanValue(id nob) {
 + (instancetype)pcodeFromTag:(NSString*)tag
 {
     pcode *pc = [[pcode alloc] init];
+    
+    if ([@"/" isEqualToString:tag]) {
+        // We have an anonymous close tag '</>'
+        pc.isEndTag = YES;
+        return pc;
+    }
     
     if ([tag characterAtIndex:0] == '/') {
         tag = [tag substringFromIndex:1];
@@ -236,12 +285,14 @@ static BOOL BooleanValue(id nob) {
                 pc.matching_pcode = pc;
             }
             else if (pc.isEndTag) {
-                pcode *start_tag = [stack pop];
+//                pcode *start_tag = [stack pop];
+                pcode *start_tag = pop(stack);
                 start_tag.matching_pcode = pc;
                 pc.matching_pcode = start_tag;
             }
             else {
-                [stack push:pc];
+//                [stack push:pc];
+                push (stack, pc);
             }
         }
     }
@@ -257,8 +308,47 @@ static BOOL BooleanValue(id nob) {
     return [self.stylesheet objectForKey:styleKey];
 }
 
-- (NSImage*)imageForKey:(NSString*)key {
-    return [NSImage imageNamed:key];
+- (Image*)imageForKey:(NSString*)key {
+    return [Image imageNamed:key];
+}
+
+- (NSAttributedString*)attributedStringForImageNamed:(NSString*)imageKey withRoot:root inScope:(NSDictionary*)scope
+{
+    Image *img;
+    NSString *imageName;
+    
+    imageName = [root valueForKeyPath:imageKey];
+    if (!imageName) {
+        imageName = [scope valueForKeyPath:imageKey];
+    }
+    if (!imageName) {
+        imageName = imageKey;
+    }
+    if ([imageName hasPrefix:@"http:"] || [imageName hasPrefix:@"file:"]) {
+        img = [[Image alloc] initWithContentsOfURL:[NSURL URLWithString:imageName]];
+    }
+    else {
+
+        img = [Image imageNamed:imageName];
+    }
+    return [self attributedStringForImage:img];
+}
+
+- (NSAttributedString*)attributedStringForImage:(Image*)image
+{
+#if TARGET_OS_IPHONE
+    NSTextAttachment *textAttachment = [NSTextAttachment initWithData:nil ofType:nil];
+    textAttachment.image = image;
+    return [NSAttributedString attributedStringWithAttachment:textAttachment];
+#else
+    NSFileWrapper* wrapper =[[NSFileWrapper alloc] initRegularFileWithContents:
+                              [image TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1]];
+                             
+    [wrapper setPreferredFilename:@"image.tiff"];
+
+    return [NSAttributedString attributedStringWithAttachment:
+                                            [[NSTextAttachment alloc] initWithFileWrapper:wrapper]];
+#endif
 }
 
 - (NSAttributedString*)attributedStringUsingRootValue:root;
@@ -314,20 +404,41 @@ static BOOL BooleanValue(id nob) {
         
         code = pc.code;
         if (pc.isEndTag)  {
-            NSInteger start = [[stack pop] intValue];
+            NSInteger start = [pop(stack) intValue]; // [[stack pop] intValue];
             range = NSMakeRange(start, (curpos - start));
         }
         else {
-            [stack push:@(curpos)];
+//            [stack push:@(curpos)];
+            push (stack, @(curpos));
         }
 
+        NSString *strValue;
+        NSValueTransformer *transformer;
+        
         switch (code)
         {
             case QTCmdValue:
                 if (pc.isEndTag) {
                     value = [root valueForKeyPath:pc.arg1];
                     if (value) {
-                        as = [[NSAttributedString alloc] initWithString:[value description]];
+                        if (pc.arg2) {
+                            // Then we may have a NSFormatter identifier
+                            NSDictionary *props = [self textAttributesForKey:pc.matching_pcode.arg1];
+                            id fmtr = props[pc.arg2];
+                            
+                            fmtr = fmtr ?: pc.arg2;
+
+                            if ([fmtr isKindOfClass:[NSFormatter class]]) {
+                                strValue = [(NSFormatter*)fmtr stringForObjectValue:value];
+                            }
+                            else if ((transformer = [NSValueTransformer valueTransformerForName:fmtr])) {
+                                strValue = [transformer transformedValue:value];
+                            }
+                            else {
+                                strValue = [value description];
+                            }
+                        }
+                        as = [[NSAttributedString alloc] initWithString:strValue];
                         [astr appendAttributedString:as];
                     }
                 }
@@ -356,7 +467,13 @@ static BOOL BooleanValue(id nob) {
                     [astr addAttributes:props range:range];
                 }
                 break;
-                
+
+            case QTCmdImage:
+                if (pc.isEndTag) {
+                    [astr appendAttributedString:[self attributedStringForImageNamed:pc.matching_pcode.arg1 withRoot:root inScope:scope]];
+                }
+                break;
+
             case QTCmdUseIf:
                 if (!pc.isEndTag) {
                     flag = BooleanValue([root valueForKeyPath:pc.arg1]);
@@ -384,12 +501,14 @@ static BOOL BooleanValue(id nob) {
             case QTCmdLoop:
                 list = [root valueForKeyPath:pc.arg2];
                 for (id item in list) {
-                    scope = [scope pushScope:@{pc.arg1: item}];
+//                    scope = [scope pushScope:@{pc.arg1: item}];
+                    scope = pushScope(scope, @{ pc.arg1: item });
                     NSUInteger endNdx = [codes indexOfObjectIdenticalTo:pc.matching_pcode];
                     [self executeCodes:[codes subarrayWithRange:NSMakeRange(ndx, (endNdx - ndx))]
                                                 appendingToAttributedString:astr usingRootValue:root inScope:scope];
                 }
-                 scope = [scope popScope];
+//                 scope = [scope popScope];
+                scope = popScope(scope);
                 
             default:
                 break;

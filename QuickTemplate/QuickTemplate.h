@@ -18,6 +18,10 @@
     <v:myname/>
     <v:myname>default name</v>
  
+    Values keypaths may also include a second parameter identifying an NSFormatter
+    e.g.
+    <v:birthday:DateFormatter/>
+ 
  s)tyle
     <s:stylename>Some text to style</s>
  
@@ -32,16 +36,30 @@
  a)
     <a:http://apple.com>Apple</a>
  
- if)
-    <if:cond>text that appears if cond evaluates to non-nil</if>
+ show / omit are our conditional actions if / if (not ..) sort of thing
  
- ifnot)
-    <ifnot:cond>text that appears if cond evaluates to nil or NO or false</if>
+ show)
+    <show:cond>text that appears if cond evaluates to non-nil</show>
+ 
+ omit)
+    <omit:cond>text that appears if cond evaluates to nil or NO or false</omit>
  
 */
 
 
 #import <Foundation/Foundation.h>
+
+#if TARGET_OS_IPHONE
+@import UIKit;
+@compatibility_alias Image UIImage;
+#else
+//@import AppKit;
+#import <AppKit/AppKit.h>
+@compatibility_alias Image NSImage;
+#endif
+
+extern NSString* QTFormatterKey;
+extern NSString* QTValueKeypath;
 
 @interface QuickTemplate : NSObject
 
@@ -58,6 +76,6 @@
 - (NSMutableAttributedString*)appendToAttributedString:(NSMutableAttributedString*)astr usingRootValue:root;
 
 - (NSDictionary*)textAttributesForKey:(NSString*)styleKey;
-- (NSImage*)imageForKey:(NSString*)key;
+- (Image*)imageForKey:(NSString*)key;
 
 @end

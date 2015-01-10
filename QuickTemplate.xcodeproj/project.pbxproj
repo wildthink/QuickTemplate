@@ -389,7 +389,7 @@
 		967A79DA17EE500E00DD2A64 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Jason Jobe";
 				TargetAttributes = {
 					9630110C17F90027004BB35D = {
@@ -531,7 +531,6 @@
 		9630111D17F90028004BB35D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_ENABLE_MODULES = YES;
 				DSTROOT = /tmp/iOSQuickTemplate.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -551,7 +550,6 @@
 		9630111E17F90028004BB35D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_ENABLE_MODULES = YES;
 				DSTROOT = /tmp/iOSQuickTemplate.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -568,7 +566,6 @@
 		9630111F17F90028004BB35D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/QuickTemplate.framework/Versions/A/QuickTemplate";
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -594,7 +591,6 @@
 		9630112017F90028004BB35D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/QuickTemplate.framework/Versions/A/QuickTemplate";
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
