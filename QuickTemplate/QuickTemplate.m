@@ -461,6 +461,9 @@ static BOOL BooleanValue(id nob) {
                                 strValue = [value description];
                             }
                         }
+                        else {
+                            strValue = [value description];
+                        }
 //                        as = [[NSAttributedString alloc] initWithString:strValue];
                         NSDictionary *attributes = @{QTValueKey: pc.arg1};
                         as = [[NSAttributedString alloc] initWithString:strValue attributes:attributes];
